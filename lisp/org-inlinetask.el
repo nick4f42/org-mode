@@ -288,8 +288,8 @@ If the task has an end part, also demote it."
 		     (1- (* 2 (or org-inlinetask-min-level 200)))
 		   (or org-inlinetask-min-level 200)))
 	 (re (concat "^\\(\\*\\)\\(\\*\\{"
-		     (format "%d" (- nstars 3))
-		     ",\\}\\)\\(\\*\\* .*\\)"))
+		     (format "%d" (- nstars 2))
+		     "\\}\\)\\(\\**\\)\\(\\* .*\\)"))
 	 ;; Virtual indentation will add the warning face on the first
 	 ;; star.  Thus, in that case, only hide it.
 	 (start-face (if (and (bound-and-true-p org-indent-mode)
@@ -300,11 +300,9 @@ If the task has an end part, also demote it."
       (if org-inlinetask-show-first-star
 	  (add-text-properties (match-beginning 1) (match-end 1)
 			       `(face ,start-face font-lock-fontified t)))
-      (add-text-properties (match-beginning
-			    (if org-inlinetask-show-first-star 2 1))
-			   (match-end 2)
-			   '(face org-hide font-lock-fontified t))
-      (add-text-properties (match-beginning 3) (match-end 3)
+      (add-text-properties (match-beginning 1) (match-end 2)
+			   '(face org-hide font-lock-fontified t invisible t))
+      (add-text-properties (match-beginning 3) (match-end 4)
 			   '(face org-inlinetask font-lock-fontified t)))))
 
 (defun org-inlinetask-toggle-visibility (&optional state)
